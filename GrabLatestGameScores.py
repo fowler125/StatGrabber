@@ -20,6 +20,9 @@ stats_page = BeautifulSoup(html, 'html.parser')
 # print(stats_page.tr)
 # print(stats_page.findAll('tr'))
 
+WEEK_NUMBER = stats_page.find(class_='section_heading').text.strip()
+print(WEEK_NUMBER)
+
 Dict = {
     'Arizona Cardinals': 'ARI',
     'Atlanta Falcons': 'ATL',
@@ -68,7 +71,7 @@ def GrabLatestGameScores():
         WinnerName = winning_team.contents[1].text.strip()
         LoserName = losing_team.contents[1].text.strip()
 
-        file1 = open(f"GameScores/{Dict[WinnerName]}v{Dict[LoserName]}", "w+")
+        file1 = open(f"GameScores/{WEEK_NUMBER}/{Dict[WinnerName]}v{Dict[LoserName]}.txt", "w+")
 
         #file1.writelines(f"Game: {WinnerName} v {LoserName} \n")
         #print(f"Game: {WinnerName} v {LoserName}")
@@ -104,7 +107,7 @@ def GrabStats(winner,loser,stat):
     TOP_RECEIVER_NAME = player_stats[stat].contents[1].contents[5].contents[3].text.strip()
     TOP_RECEIVER_YDS = player_stats[stat].contents[1].contents[5].contents[5].text.strip()
 
-    PlayerScores = open(f"TopPlayerStats/{Dict[winner]}v{Dict[loser]}stats", "w+")
+    PlayerScores = open(f"TopPlayerStats/{WEEK_NUMBER}/{Dict[winner]}v{Dict[loser]}stats.txt", "w+")
 
     print(f"{TOP_PASSER_LABEL} {TOP_PASSER_NAME} {TOP_PASSER_YDS}")
     PlayerScores.writelines(f"{TOP_PASSER_LABEL} {TOP_PASSER_NAME} {TOP_PASSER_YDS}\n")
