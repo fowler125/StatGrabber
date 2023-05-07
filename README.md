@@ -6,13 +6,12 @@ Welcome to my NFL stats project! This project is designed to collect and conglom
 # **Installation**
 To use this project, you'll need to install a few dependencies:
 
-'''
+```
 -bs4
 -urlopen from urllib.request
 -beautifulsoup
 -datetime
-'''
-
+```
 You can install these dependencies using pip, the Python package manager. First, make sure you have Python and pip installed on your system. Then, run the following command in your terminal:
 
 
