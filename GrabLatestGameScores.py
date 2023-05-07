@@ -1,13 +1,7 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
+import os
 
-# Import data manipulation modules
-import pandas as pd
-import numpy as np
-
-# Import data visualization modules
-import matplotlib as mpl
-import matplotlib.pyplot as plt
 
 # URL of page
 url = 'https://www.pro-football-reference.com/boxscores/'
@@ -16,10 +10,9 @@ url = 'https://www.pro-football-reference.com/boxscores/'
 html = urlopen(url)
 stats_page = BeautifulSoup(html, 'html.parser')
 
-# print(stats_page.prettify())
-# print(stats_page.tr)
-# print(stats_page.findAll('tr'))
-
+winner = ""
+loser = ""
+stat = 0
 WEEK_NUMBER = stats_page.find(class_='section_heading').text.strip()
 print(WEEK_NUMBER)
 
@@ -71,20 +64,24 @@ def GrabLatestGameScores():
         WinnerName = winning_team.contents[1].text.strip()
         LoserName = losing_team.contents[1].text.strip()
 
-        file1 = open(f"GameScores/{WEEK_NUMBER}/{Dict[WinnerName]}v{Dict[LoserName]}.txt", "w+")
+        try:
+            file1 = open(f"GameScores/{WEEK_NUMBER}/{Dict[WinnerName]}v{Dict[LoserName]}.txt", "w+")
+            print(f"{winning_team.contents[1].text.strip()} - {winning_team.contents[3].text}")
+            file1.writelines(f" {winning_team.contents[1].text.strip()} - {winning_team.contents[3].text} \n")
 
-        #file1.writelines(f"Game: {WinnerName} v {LoserName} \n")
-        #print(f"Game: {WinnerName} v {LoserName}")
+            print(f"{losing_team.contents[1].text.strip()} - {losing_team.contents[3].text}")
+            file1.writelines(f" {losing_team.contents[1].text.strip()} - {losing_team.contents[3].text} \n")
 
-        print(f"{winning_team.contents[1].text.strip()} - {winning_team.contents[3].text}")
-        file1.writelines(f" {winning_team.contents[1].text.strip()} - {winning_team.contents[3].text} \n")
+            GrabStats(WinnerName, LoserName, game_number - 1)
+            winner = WinnerName
+            loser = LoserName
+            stat = game_number-1
 
-        print(f"{losing_team.contents[1].text.strip()} - {losing_team.contents[3].text}")
-        file1.writelines(f" {losing_team.contents[1].text.strip()} - {losing_team.contents[3].text} \n")
+            game_number = game_number + 1
 
-        GrabStats(WinnerName, LoserName, game_number - 1)
-
-        game_number = game_number + 1
+        except FileNotFoundError as e:
+            os.makedirs(f"GameScores/{WEEK_NUMBER}")
+            GrabLatestGameScores()
 
 
 
@@ -106,20 +103,25 @@ def GrabStats(winner,loser,stat):
     TOP_RECEIVER_LABEL = player_stats[stat].contents[1].contents[5].contents[1].text.strip()
     TOP_RECEIVER_NAME = player_stats[stat].contents[1].contents[5].contents[3].text.strip()
     TOP_RECEIVER_YDS = player_stats[stat].contents[1].contents[5].contents[5].text.strip()
+    try:
+        PlayerScores = open(f"TopPlayerStats/{WEEK_NUMBER}/{Dict[winner]}v{Dict[loser]}stats.txt", "w+")
 
-    PlayerScores = open(f"TopPlayerStats/{WEEK_NUMBER}/{Dict[winner]}v{Dict[loser]}stats.txt", "w+")
+        print(f"{TOP_PASSER_LABEL} {TOP_PASSER_NAME} {TOP_PASSER_YDS}")
+        PlayerScores.writelines(f"{TOP_PASSER_LABEL} {TOP_PASSER_NAME} {TOP_PASSER_YDS}\n")
 
-    print(f"{TOP_PASSER_LABEL} {TOP_PASSER_NAME} {TOP_PASSER_YDS}")
-    PlayerScores.writelines(f"{TOP_PASSER_LABEL} {TOP_PASSER_NAME} {TOP_PASSER_YDS}\n")
+        print(f"{TOP_RUSHER_LABEL} {TOP_RUSHER_NAME} {TOP_RUSHER_YDS} ")
+        PlayerScores.writelines(f"{TOP_RUSHER_LABEL} {TOP_RUSHER_NAME} {TOP_RUSHER_YDS}\n")
 
-    print(f"{TOP_RUSHER_LABEL} {TOP_RUSHER_NAME} {TOP_RUSHER_YDS} ")
-    PlayerScores.writelines(f"{TOP_RUSHER_LABEL} {TOP_RUSHER_NAME} {TOP_RUSHER_YDS}\n")
+        print(f"{TOP_RECEIVER_LABEL} {TOP_RECEIVER_NAME} {TOP_RECEIVER_YDS} ")
+        PlayerScores.writelines(f"{TOP_RECEIVER_LABEL} {TOP_RECEIVER_NAME} {TOP_RECEIVER_YDS}\n")
 
-    print(f"{TOP_RECEIVER_LABEL} {TOP_RECEIVER_NAME} {TOP_RECEIVER_YDS} ")
-    PlayerScores.writelines(f"{TOP_RECEIVER_LABEL} {TOP_RECEIVER_NAME} {TOP_RECEIVER_YDS}\n")
+        PlayerScores.close()
+    except FileNotFoundError as e:
+        os.makedirs(f"TopPlayerStats/{WEEK_NUMBER}")
+        GrabStats(winner,loser,stat)
 
-    PlayerScores.close()
+
 
 
 GrabLatestGameScores()
-#GrabStats('KAN','LAC')
+
