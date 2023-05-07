@@ -49,3 +49,4 @@ That's it! With these simple steps, you can collect and analyze NFL stats for an
 
 # Examples
 ![NFL STATS EXAMPLE](/Example%20Graphics/cha%20v%20den.png)
+![NFL STATS EXAMPLE](/Example%20Graphics/cin%20v%20no.png)
