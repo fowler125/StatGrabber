@@ -15,13 +15,15 @@ To use this project, you'll need to install a few dependencies:
 You can install these dependencies using pip, the Python package manager. First, make sure you have Python and pip installed on your system. Then, run the following command in your terminal:
 
 
+```
 'pip install bs4 urllib3 beautifulsoup4 datetime'
+```
 This will install all the required dependencies for the project.
 
 Alternatively, you can also install the dependencies from the requirements.txt file included in the project. Simply run the following command in your terminal:
 
 
-'pip install -r requirements.txt'
+```pip install -r requirements.txt```
 This will install all the required dependencies listed in the file.
 
 With the dependencies installed, you're ready to start using the project!
