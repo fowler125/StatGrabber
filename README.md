@@ -39,10 +39,11 @@ To use this project, follow these steps:
 ```pip install -r requirements.txt```
 3. Once the dependencies are installed, you can run the GrabLatestGameScores.py script to collect and conglomerate NFL stats for one week in the season. You can do this by running the following command in your terminal:
 ```python GrabLatestGameScores.py```
-4. This will run the script and generate a TXT file with the NFL stats for the specified week.
-5. Optionally, you can create a common file to run both at the same time, this has been tested and works perfectly fine as well, but for my use case I did not need to run them both at the same time.
+4. There is also the ```TopWeekStats.Py``` which will grab the top stat holders for that given week and export to a TXT file.
+5. This will run the script and generate a TXT file with the NFL stats for the specified week.
+6. Optionally, you can create a common file to run both at the same time, this has been tested and works perfectly fine as well, but for my use case I did not need to run them both at the same time.
 
-6. You can also modify the **_GrabLatestGameScores.py_** script to collect stats for a different week or to customize the output format. The script is well-documented and easy to modify.
+7. You can also modify the **_GrabLatestGameScores.py_** script to collect stats for a different week or to customize the output format. The script is well-documented and easy to modify.
 
 That's it! With these simple steps, you can collect and analyze NFL stats for any week in the season. Enjoy!
 
