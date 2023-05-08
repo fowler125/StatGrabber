@@ -92,6 +92,8 @@ def GrabLatestGameScores():
 def GrabStats(winner,loser,stat):
     player_stats = stats_page.find_all('table', class_='stats')
     # print(player_stats)
+    
+    #The values for the indecies for the contents should not change, it is STATIC HTML so the 1.1.3 spots will always have those values only
     TOP_PASSER_LABEL = player_stats[stat].contents[1].contents[1].contents[1].text.strip()
     TOP_PASSER_NAME = player_stats[stat].contents[1].contents[1].contents[3].text.strip()
     TOP_PASSER_YDS = player_stats[stat].contents[1].contents[1].contents[5].text.strip()
